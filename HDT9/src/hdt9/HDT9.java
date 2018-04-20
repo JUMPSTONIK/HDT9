@@ -19,15 +19,11 @@ import java.util.ArrayList;
  * fecha:19/03/2018
  */
 public class HDT9 {
-
-    /**
-     * @param args the command line arguments
-     */
+    
     public static void main(String[] args) throws FileNotFoundException, IOException {
         BufferedReader reader = new BufferedReader(new FileReader("diccionario.txt"));    
         StringBuilder builder = new StringBuilder();
         String linea;
-  
         InterArboles nueva = null;
         FactoryTree factoryTree = new FactoryTree();
         RedBlackTree<Node<Association<String, String>>>redBlack = new RedBlackTree<>();
@@ -36,7 +32,11 @@ public class HDT9 {
         //aqui se hace el intento por obtener el archivo con sus informaicon    
         try {
             while (i==0){
-                System.out.println("\n ¿Qué implementación desea usar? \n\t1. Red-Black Tree \n\t2. Splay Tree \n\t3. Salir");
+                System.out.println("Qué Arbol desea usar?");
+                System.out.println("    1. Red Black Tree");
+                System.out.println("    2. Splay Tree");
+                System.out.println("    3. Ninguna, salir");
+                
                 String opcion = entrada.nextLine();
                 switch(opcion)
                 {
