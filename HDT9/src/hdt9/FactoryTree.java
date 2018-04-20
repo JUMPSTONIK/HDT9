@@ -9,6 +9,23 @@ package hdt9;
  *
  * @author JUMPSTONIK
  */
-public class FactoryTree {
+public class FactoryTree<E> {
+    InterArboles newTree;
+    
+    public FactoryTree(){}
+    
+    public InterArboles getTree(String opcionUsuario) {
+    // seleccion de la implementacion a utilizar:
+        
+        if(opcionUsuario.equals("Red-Black Tree"))
+        {
+            newTree =  new RedBlackTree<>();
+        }else if(opcionUsuario.equals("Splay Tree"))
+        {
+            newTree = new SplayTree<>();
+        }
+        
+        return newTree;      
+   }
     
 }
