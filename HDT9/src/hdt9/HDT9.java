@@ -38,10 +38,10 @@ public class HDT9 {
                 String opcion = entrada.nextLine();
                 switch(opcion) {
                     case "1":
-                        nueva = factoryTree.implementar("Red Black Tree");
+                        nueva = factoryTree.implementar("Splay Tree");
                         break;
                     case "2":
-                        nueva = factoryTree.implementar("Splay Tree");
+                        nueva = factoryTree.implementar("Red Black Tree");
                         break;
                     case "3":
                         i=1;
