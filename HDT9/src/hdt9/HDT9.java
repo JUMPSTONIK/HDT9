@@ -25,7 +25,7 @@ public class HDT9 {
         FactoryTree factoryTree = new FactoryTree(); //FACTORY
         InterArboles nueva = null; //INTERFACE
         RedBlackTree<Node<Association<String, String>>>redBlack = new RedBlackTree<>();//ASSOCIATION
-        //Scanner entrada = new Scanner(System.in);
+        Scanner entrada = new Scanner(System.in);
         String linea;
         int i=0;
         //aqui se hace el intento por obtener el archivo con sus informaicon    
@@ -35,8 +35,7 @@ public class HDT9 {
                 System.out.println("    1. Splay Tree");
                 System.out.println("    2. Red Black Tree");
                 System.out.println("    3. Ninguna, salir");
-                //String opcion = entrada.nextLine();
-                String opcion = "1";
+                String opcion = entrada.nextLine();
                 switch(opcion) {
                     case "1":
                         nueva = factoryTree.implementar("Splay Tree");
