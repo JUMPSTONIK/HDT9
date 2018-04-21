@@ -19,6 +19,11 @@ public class RedBlackTree<E> implements InterArboles {
     
     public RedBlackTree() {
     }
+    /**
+     * verifica el contenido del nodo y hacerlo rojo
+     * @param nodo
+     * @return 
+     */
     private boolean isRed(Node nodo) {
         if (nodo == null){ 
             return false;

@@ -14,6 +14,12 @@ public class FactoryTree<E> {
     
     public FactoryTree(){}
     
+    /**
+     * esta es la funcion encargada de la instanciacion del tipo de arbol
+     * que el usuario quiere usar
+     * @param opcionUsuario opcion elegida por el usuario
+     * @return instancia del arbol
+     */
     public InterArboles implementar(String opcionUsuario) {
         
         if(opcionUsuario.equals("Red Black Tree")){
