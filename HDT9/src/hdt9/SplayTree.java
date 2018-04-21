@@ -13,10 +13,20 @@ package hdt9;
 public class SplayTree<E> implements InterArboles {
     public Node raiz;
     public SplayTree(){}
+    /**
+     * verifica contenido del key
+     * @param key refencia al valor
+     * @return true o false
+     */
     @Override
     public boolean contains(String key) {
         return get(key) != null;
     }
+    /**
+     * devuelve en string el valor referenciado
+     * @param key referencia
+     * @return valor
+     */
     @Override
     public String get(String key) {
         raiz = splaytree(raiz, key);
@@ -28,6 +38,11 @@ public class SplayTree<E> implements InterArboles {
             return null;
         }
     }    
+    /**
+     * meten un valor a un nodo del splay tree
+     * @param key referencia dle valor
+     * @param value valor a ingresar
+     */
     @Override
     public void put(String key, String value) {
         if (raiz == null) {
@@ -51,24 +66,12 @@ public class SplayTree<E> implements InterArboles {
             raiz = nodo;
         }
     }
-    public void remove(String key) {
-        if (raiz == null){
-            return;
-        }
-        raiz=splaytree(raiz, key);
-        int comparable = key.compareTo(raiz.getKey());
-        if (comparable == 0) {
-            if (raiz.getLeft() == null) {
-                raiz = raiz.getRight();
-            } 
-            else {
-                Node nodo = raiz.getRight();
-                raiz=raiz.getLeft();
-                splaytree(raiz, key);
-                raiz.setRight(nodo);
-            }
-        }
-    }
+    /**
+     * encargado del dle ingreso del nodo al arbol y regreso del nodo
+     * @param nodo nodo a ingresar
+     * @param key referencia dle valor
+     * @return nodo del splaytree
+     */
     public Node splaytree(Node nodo, String key) {
         if (nodo == null){
             return null;
@@ -122,19 +125,22 @@ public class SplayTree<E> implements InterArboles {
             return nodo;
         }
     }
-    public int size() {
-        return size(raiz);
-    }
-    private int size(Node nodo) {
-        if (nodo == null) return 0;
-        else return 1 + size(nodo.getLeft()) + size(nodo.getRight());
-    }
+    /**
+     * esta funcion se encarga de rotar el nodo a la derecha
+     * @param nodo nodo a mover
+     * @return nodo desplazado
+     */
     private Node rotateRight(Node nodo) {
         Node nodito = nodo.getLeft();
         nodo.setLeft(nodito.getRight());
         nodito.setRight(nodo);
         return nodito;
     }
+    /**
+     * esta funcion se encarga de rotar el nodo a la izquierda
+     * @param nodo nodo a mover
+     * @return nodo desplazado
+     */
     private Node rotateLeft(Node nodo) {
         Node nodito = nodo.getRight();
         nodo.setRight(nodito.getLeft());

@@ -21,8 +21,8 @@ public class RedBlackTree<E> implements InterArboles {
     }
     /**
      * verifica el contenido del nodo y hacerlo rojo
-     * @param nodo
-     * @return 
+     * @param nodo nodo a verificar
+     * @return true o false
      */
     private boolean isRed(Node nodo) {
         if (nodo == null){ 
@@ -30,25 +30,48 @@ public class RedBlackTree<E> implements InterArboles {
         }
         return nodo.color == RED;
     }
+    /**
+     * regresa el tamaño del nodo
+     * @param nodo nodo a medir
+     * @return tamaño del nodo
+     */
     private int size(Node nodo) {
         if (nodo == null){ 
             return 0;
         }
         return nodo.tamano;
-    } 
+    }
+    /**
+     * devuelve tamaño del arbol
+     * @return tamaño del arbol
+     */
     public int size() {
         return size(root);
     }
-
+    /**
+     * verifica si estavacio o no
+     * @return true o false 
+     */
     public boolean isEmpty() {
         return root == null;
     }
-
+    /**
+     * devuleve valor dentro del nodo
+     * @param key referencia del valor
+     * @return valor de dato referido
+     */
     @Override
     public String get(String key) {
         if (key == null) throw new IllegalArgumentException("argument to get() is null");
         return get(root, key);
     }
+    /**
+     * 
+     * devuleve valor dentro del nodo
+     * @param nodo nodo al cual se busca un valor
+     * @param key referencia del valor
+     * @return valor de dato referido
+     */
     private String get(Node nodo, String key) {
         while (nodo != null) {
             int compara = key.compareTo(nodo.getKey());
@@ -64,9 +87,19 @@ public class RedBlackTree<E> implements InterArboles {
         }
         return null;
     }
+    /**
+     * verifica el contenido de un dato en el nodo
+     * @param key referencia del dato
+     * @return 
+     */
     public boolean contains(String key) {
         return get(key) != null;
     }
+    /**
+     * poner valor dentro de un nodo 
+     * @param key referencia del valor
+     * @param value valor a guardar
+     */
     public void put(String key, String value) {
         if (key == null) throw new IllegalArgumentException("first argument to put() is null");
         if (value == null) {
@@ -75,6 +108,13 @@ public class RedBlackTree<E> implements InterArboles {
         root = put(root, key, value);
         root.color = BLACK;
     }
+    /**
+     * poner y devolver un nodo ingresado
+     * @param nodo nodo a poner en un nuevo lugar
+     * @param key referencia del valor
+     * @param val valor del association
+     * @return regresa el nodo
+     */
     private Node put(Node nodo, String key, String val) { 
         if (nodo == null) {
             return new Node(key, val, RED, 1);
@@ -101,76 +141,11 @@ public class RedBlackTree<E> implements InterArboles {
         nodo.tamano = size(nodo.getLeft()) + size(nodo.getRight()) + 1;
         return nodo;
     }
-
-    public void deleteMax() {
-        if (isEmpty()) {
-            throw new NoSuchElementException("BST underflow");
-        }
-        if (!isRed(root.left) && !isRed(root.right)){
-            root.color = RED;
-        }
-        root = deleteMax(root);
-        if (!isEmpty()) {
-            root.color = BLACK;
-        }
-    }
-    private Node deleteMax(Node nodo) { 
-        if (isRed(nodo.left)){
-            nodo = rotateRight(nodo);
-        }
-        if (nodo.right == null){
-            return null;
-        }
-
-        if (!isRed(nodo.right) && !isRed(nodo.right.left)){
-            nodo = moveRedRight(nodo);
-        }
-        nodo.right = deleteMax(nodo.right);
-        return balance(nodo);
-    }
-
-//    public void delete(Key key) { 
-//        if (key == null) throw new IllegalArgumentException("argument to delete() is null");
-//        if (!contains(key)) return;
-//
-//        // if both children of root are black, set root to red
-//        if (!isRed(root.left) && !isRed(root.right))
-//            root.color = RED;
-//
-//        root = delete(root, key);
-//        if (!isEmpty()) root.color = BLACK;
-//        // assert check();
-//    }
-
-    // delete the key-value pair with the given key rooted at h
-//    private Node delete(Node h, Key key) { 
-//        // assert get(h, key) != null;
-//
-//        if (key.compareTo(h.key) < 0)  {
-//            if (!isRed(h.left) && !isRed(h.left.left))
-//                h = moveRedLeft(h);
-//            h.left = delete(h.left, key);
-//        }
-//        else {
-//            if (isRed(h.left))
-//                h = rotateRight(h);
-//            if (key.compareTo(h.key) == 0 && (h.right == null))
-//                return null;
-//            if (!isRed(h.right) && !isRed(h.right.left))
-//                h = moveRedRight(h);
-//            if (key.compareTo(h.key) == 0) {
-//                Node x = min(h.right);
-//                h.key = x.key;
-//                h.val = x.val;
-//                // h.val = get(h.right, min(h.right).key);
-//                // h.key = min(h.right).key;
-//                h.right = deleteMin(h.right);
-//            }
-//            else h.right = delete(h.right, key);
-//        }
-//        return balance(h);
-//    }
-
+    /**
+     * esta funcion se encarga de mover un rojo a la derecha
+     * @param nodo nodo a mover
+     * @return nodo movido con cambio de color
+     */
     private Node moveRedRight(Node nodo) {
         flipColors(nodo);
         if (isRed(nodo.getLeft().getLeft())) { 
@@ -179,6 +154,12 @@ public class RedBlackTree<E> implements InterArboles {
         }
         return nodo;
     }
+    /**
+     * aqui se realiza la accion de rotar el nodo a una posicion a la derecha
+     * del arbol
+     * @param nodo nodo que quiere ser movido
+     * @return nodo a mover
+     */
     private Node rotateRight(Node nodo) {
         Node n = nodo.getLeft();
         nodo.setLeft(n.getRight());
@@ -189,6 +170,11 @@ public class RedBlackTree<E> implements InterArboles {
         nodo.tamano = size(nodo.getLeft()) + size(nodo.getRight()) + 1;
         return n;
     }
+    /**
+     * aqui se mueve el nodo rojo a la izquierda
+     * @param nodo nodo a mover
+     * @return nodo que sera movido
+     */
         private Node moveRedLeft(Node nodo) {
         flipColors(nodo);
         if (isRed(nodo.getRight().getLeft())) { 
@@ -198,6 +184,11 @@ public class RedBlackTree<E> implements InterArboles {
         }
         return nodo;
     }
+        /**
+         * aqui se realiza la rotacion a la izquierda del nodo en el arbol
+         * @param nodo nodo a mover
+         * @return devuelve el nodo movido
+         */
     private Node rotateLeft(Node nodo) {
         Node n = nodo.getRight();
         nodo.setRight(n.getLeft());
@@ -208,11 +199,20 @@ public class RedBlackTree<E> implements InterArboles {
         nodo.tamano = size(nodo.getLeft()) + size(nodo.getRight()) + 1;
         return n;
     }
+    /**
+     * se realiza el cambio de color a un nodo
+     * @param nodo 
+     */
     private void flipColors(Node nodo) {
         nodo.color = !nodo.color;
         nodo.getLeft().color = !nodo.getLeft().color;
         nodo.getRight().color = !nodo.getRight().color;
     }
+    /**
+     * esta funcionse encarga de balancear los nodos del arbol
+     * @param nodo nodo a ser balanceado en el arbol
+     * @return nodo balanceado
+     */
     private Node balance(Node nodo) {
         if (isRed(nodo.getRight())){                     
             nodo = rotateLeft(nodo);
@@ -226,16 +226,4 @@ public class RedBlackTree<E> implements InterArboles {
         nodo.tamano = size(nodo.getLeft()) + size(nodo.getRight()) + 1;
         return nodo;
     }
-
-   /***************************************************************************
-    *  Utility functions.
-    ***************************************************************************/
-    public int height() {
-        return height(root);
-    }
-    private int height(Node x) {
-        if (x == null) return -1;
-        return 1 + Math.max(height(x.left), height(x.right));
-    }
-    
 }

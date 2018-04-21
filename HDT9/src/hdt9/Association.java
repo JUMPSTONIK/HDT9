@@ -50,11 +50,19 @@ public class Association<K,V> implements java.util.Map.Entry<K,V> {
         return null;
         
     }
+    /**
+     * devuelve el hascode de la referencia del valor
+     * @return hashcode
+     */
     public int hashCode()
     {
         return getKey().hashCode();
     }
-    
+    /**
+     * verifica la igualdad de una valor con otro
+     * @param other objeto a comparar
+     * @return true o false
+     */
     public boolean equals(Object other)
     {
         Association otherAssoc = (Association)other;
