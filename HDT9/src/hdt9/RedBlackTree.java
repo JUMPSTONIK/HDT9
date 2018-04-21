@@ -67,12 +67,12 @@ public class RedBlackTree<E> implements InterArboles {
     public boolean contains(String key) {
         return get(key) != null;
     }
-    public void put(String key, String val) {
+    public void put(String key, String value) {
         if (key == null) throw new IllegalArgumentException("first argument to put() is null");
-        if (val == null) {
+        if (value == null) {
             return;
         }
-        root = put(root, key, val);
+        root = put(root, key, value);
         root.color = BLACK;
     }
     private Node put(Node nodo, String key, String val) { 
