@@ -9,7 +9,7 @@ import java.util.Map;
  * Clase del association
  *@author Josue(JUMPSTONIK) David Lopez 17081
  * @author Sergio Alejandro Gordillo 16387
- * fecha:19/03/2018
+ * fecha:20/04/2018
  */
 public class Association<K,V> implements java.util.Map.Entry<K,V> {
     protected K laKey;
