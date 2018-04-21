@@ -19,38 +19,35 @@ import java.util.ArrayList;
  * fecha:19/03/2018
  */
 public class HDT9 {
-    
     public static void main(String[] args) throws FileNotFoundException, IOException {
-        BufferedReader reader = new BufferedReader(new FileReader("diccionario.txt"));    
         StringBuilder builder = new StringBuilder();
-        String linea;
-        InterArboles nueva = null;
-        FactoryTree factoryTree = new FactoryTree();
-        RedBlackTree<Node<Association<String, String>>>redBlack = new RedBlackTree<>();
+        BufferedReader reader = new BufferedReader(new FileReader("diccionario.txt"));
+        FactoryTree factoryTree = new FactoryTree(); //FACTORY
+        InterArboles nueva = null; //INTERFACE
+        RedBlackTree<Node<Association<String, String>>>redBlack = new RedBlackTree<>();//ASSOCIATION
         Scanner entrada = new Scanner(System.in);
-        int i = 0;
+        String linea;
+        int i=0;
         //aqui se hace el intento por obtener el archivo con sus informaicon    
         try {
             while (i==0){
-                System.out.println("Qué Arbol desea usar?");
-                System.out.println("    1. Red Black Tree");
-                System.out.println("    2. Splay Tree");
+                System.out.println("Ingrese el numero del arbol que desea usar");
+                System.out.println("    1. Splay Tree");
+                System.out.println("    2. Red Black Tree");
                 System.out.println("    3. Ninguna, salir");
-                
                 String opcion = entrada.nextLine();
-                switch(opcion)
-                {
+                switch(opcion) {
                     case "1":
-                        nueva = factoryTree.getTree("Red-Black Tree");
+                        nueva = factoryTree.implementar("Red Black Tree");
                         break;
                     case "2":
-                        nueva = factoryTree.getTree("Splay Tree");
+                        nueva = factoryTree.implementar("Splay Tree");
                         break;
                     case "3":
                         i=1;
                         break;
                 }
-                if(i == 0){
+                if(i==0){
                     while ((linea=reader.readLine())!=null) {
                         String english;
                         String espanol;
@@ -59,13 +56,14 @@ public class HDT9 {
                         linea = linea + " ";
                         for(int a=1;a<linea.length();a++){
                             String subs = linea.substring((a-1), a); 
-                            if(subs.equals("\t"))
-                            {
+                            if(subs.equals("\t")) {
                                 if(linea.contains(",")){
                                     espanol = linea.substring(a, linea.indexOf(",")).toLowerCase();
-                                }else if(linea.contains(";")){
+                                }
+                                else if(linea.contains(";")){
                                     espanol = linea.substring(a, linea.indexOf(";")).toLowerCase();
-                                }else{
+                                }
+                                else{
                                     espanol = linea.substring(a, linea.length()-1).toLowerCase(); //se obtiene la subcadena luego de ","
                                 }
                                 english = linea.substring(0, a-1).toLowerCase(); //se obtiene la subcadena antes de "," 
@@ -73,11 +71,11 @@ public class HDT9 {
                             }
                         }
                     }
-                    File archivo = new File ("oracion.txt");
-                    FileReader filereader = new FileReader (archivo);
+                    File nuevafrase = new File ("oracion.txt");
+                    FileReader filereader = new FileReader (nuevafrase);
                     BufferedReader reader2 = new BufferedReader(filereader);
-                    String linea2 = "";
                     Scanner scanner = new Scanner(filereader);
+                    String linea2 = "";
                     String texto = "";
                     while (scanner.hasNextLine()) {
                         linea2 += scanner.nextLine();
@@ -85,18 +83,20 @@ public class HDT9 {
                     }
                     filereader.close();
                     reader2.close();
-                    String oracion[] = texto.split(" ");
+                    String oracion[]= texto.split(" ");
                     String traduccion = "";
                     String palabraIngles;
-                    for(String p: oracion){
-                        palabraIngles = p.toLowerCase();
-                        if (nueva.contains(palabraIngles))
-                            traduccion =traduccion+ nueva.get(palabraIngles).toUpperCase() + " ";
-                        else
-                            traduccion =traduccion+ " **"+palabraIngles.toUpperCase() + "** ";
+                    for(String palabra: oracion){
+                        palabraIngles = palabra;
+                        if (nueva.contains(palabraIngles)){
+                            traduccion=traduccion+ nueva.get(palabraIngles)+ " ";
                         }
+                        else{
+                            traduccion=traduccion+ " *"+palabraIngles+ "* ";
+                        }
+                    }
                     System.out.println(traduccion);
-                    i = 1;
+                    i=1;
                 }
             }
         }

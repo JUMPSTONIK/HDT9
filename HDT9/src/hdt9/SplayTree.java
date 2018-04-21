@@ -11,108 +11,110 @@ package hdt9;
  * @author Sergio Marchena
  */
 public class SplayTree<E> implements InterArboles {
-    
-    public Node root;
-    int i = 0;
-    /** Constructor **/
+    public Node raiz;
     public SplayTree(){}
-    
     @Override
-    public boolean contains(String key){
+    public boolean contains(String key) {
         return get(key) != null;
     }
     @Override
-    public String get(String key){
-        root = doSplay(root, key);
-        int cmp = key.compareTo(root.getKey());
-        if (cmp == 0) return root.getValue().getValue().toString();
-        else {
-            return null;
-        }  
-    }  
-    @Override
-    public void put(String key, String value){
-        if (root == null) {
-            root = new Node(key, value);
-            return;
-        } 
-        root = doSplay(root, key);
-        int compara = key.compareTo(root.getKey());
-        if (compara < 0) {
-            Node nodo = new Node(key, value);
-            nodo.setLeft(root.getLeft());
-            nodo.setRight(root);
-            root.setLeft(null);
-            root = nodo;
+    public String get(String key) {
+        raiz = splaytree(raiz, key);
+        int comparable = key.compareTo(raiz.getKey());
+        if (comparable == 0){
+            return raiz.getValue().getValue().toString();
         }
-        else if (compara > 0){
-            Node n = new Node(key, value);
-            n.setRight(root.getRight());
-            n.setLeft(root);
-            root.setRight(null);
-            root = n;
+        else{   
+            return null;
+        }
+    }    
+    @Override
+    public void put(String key, String value) {
+        if (raiz == null) {
+            raiz = new Node(key, value);
+            return;
+        }
+        raiz = splaytree(raiz, key);
+        int comparable = key.compareTo(raiz.getKey());
+        if (comparable < 0) {
+            Node nodo = new Node(key, value);
+            nodo.setLeft(raiz.getLeft());
+            nodo.setRight(raiz);
+            raiz.setLeft(null);
+            raiz = nodo;
+        }
+        else if (comparable > 0) {
+            Node nodo = new Node(key, value);
+            nodo.setRight(raiz.getRight());
+            nodo.setLeft(raiz);
+            raiz.setRight(null);
+            raiz = nodo;
         }
     }
-    public void remove(String key){
-        if (root == null) return;
-        root = doSplay(root, key);
-        int compara = key.compareTo(root.getKey());
-        if (compara == 0) {
-            if (root.getLeft() == null) {
-                root = root.getRight();
+    public void remove(String key) {
+        if (raiz == null){
+            return;
+        }
+        raiz=splaytree(raiz, key);
+        int comparable = key.compareTo(raiz.getKey());
+        if (comparable == 0) {
+            if (raiz.getLeft() == null) {
+                raiz = raiz.getRight();
             } 
             else {
-                Node x = root.getRight();
-                root = root.getLeft();
-                doSplay(root, key);
-                root.setRight(x);
+                Node nodo = raiz.getRight();
+                raiz=raiz.getLeft();
+                splaytree(raiz, key);
+                raiz.setRight(nodo);
             }
         }
     }
-    private Node doSplay(Node nodo, String key){
+    public Node splaytree(Node nodo, String key) {
         if (nodo == null){
             return null;
-        }
-        int compara = key.compareTo(nodo.getKey());
-        if (compara < 0) {
-            if (nodo.getLeft() == null){
+            }
+        int comparable=key.compareTo(nodo.getKey());
+        if (comparable < 0) {
+            if (nodo.getLeft() == null) {
                 return nodo;
             }
-            int compara1 = key.compareTo(nodo.getLeft().getKey());
-            if (compara1 < 0) {
-                nodo.getLeft().setLeft(doSplay(nodo.getLeft().getLeft(), key));
+            int otrocomparable = key.compareTo(nodo.getLeft().getKey());
+            if (otrocomparable < 0) {
+                nodo.getLeft().setLeft(splaytree(nodo.getLeft().getLeft(), key));
                 nodo = rotateRight(nodo);
             }
-            else if (compara1 > 0) {
-                nodo.getLeft().setRight(doSplay(nodo.getLeft().getRight(), key));
+            else if (otrocomparable > 0) {
+                nodo.getLeft().setRight(splaytree(nodo.getLeft().getRight(), key));
                 if (nodo.getLeft().getRight() != null){
                     nodo.setLeft(rotateLeft(nodo.getLeft()));
                 }
             }
-            
-            if (nodo.getLeft() == null){
+            if (nodo.getLeft() == null) {
                 return nodo;
             }
-            else{     
+            else{           
                 return rotateRight(nodo);
             }
         }
-        else if (compara > 0) {
+        else if (comparable > 0) { 
             if (nodo.getRight() == null) {
                 return nodo;
             }
-            int compara1 = key.compareTo(nodo.getRight().getKey());
-            if (compara1 < 0) {
-                nodo.getRight().setLeft(doSplay(nodo.getRight().getLeft(), key));
-                if (nodo.getRight().getLeft() != null)
+            int otrootrocomparable = key.compareTo(nodo.getRight().getKey());
+            if (otrootrocomparable < 0) {
+                nodo.getRight().setLeft(splaytree(nodo.getRight().getLeft(), key));
+                if (nodo.getRight().getLeft() != null){
                     nodo.setRight(rotateRight(nodo.getRight()));
+                }
             }
-            else if (compara1 > 0) {
-                nodo.getRight().setRight(doSplay(nodo.getRight().getRight(), key));
+            else if (otrootrocomparable > 0) {
+                nodo.getRight().setRight(splaytree(nodo.getRight().getRight(), key));
                 nodo = rotateLeft(nodo);
             }
-            if (nodo.getRight() == null) return nodo;
-            else{                 
+            if (nodo.getRight() == null){
+                return nodo;
+            }
+            else{           
                 return rotateLeft(nodo);
             }
         }
@@ -120,30 +122,23 @@ public class SplayTree<E> implements InterArboles {
             return nodo;
         }
     }
-    public int height() {
-        return height(root);
-    }
-    private int height(Node n) {
-        if (n == null) return -1;
-        return 1 + Math.max(height(n.getLeft()), height(n.getRight()));
-    }   
     public int size() {
-        return size(root);
+        return size(raiz);
     }
-    private int size(Node n) {
-        if (n == null) return 0;
-        else return 1 + size(n.getLeft()) + size(n.getRight());
+    private int size(Node nodo) {
+        if (nodo == null) return 0;
+        else return 1 + size(nodo.getLeft()) + size(nodo.getRight());
     }
-    private Node rotateLeft(Node n) {
-        Node nodo = n.getRight();
-        n.setRight(nodo.getLeft());
-        nodo.setLeft(n);
-        return nodo;
+    private Node rotateRight(Node nodo) {
+        Node nodito = nodo.getLeft();
+        nodo.setLeft(nodito.getRight());
+        nodito.setRight(nodo);
+        return nodito;
     }
-    private Node rotateRight(Node n) {
-        Node nodo = n.getLeft();
-        n.setLeft(n.getRight());
-        nodo.setRight(n);
-        return nodo;
+    private Node rotateLeft(Node nodo) {
+        Node nodito = nodo.getRight();
+        nodo.setRight(nodito.getLeft());
+        nodito.setLeft(nodo);
+        return nodito;
     }
 }

@@ -14,17 +14,14 @@ public class FactoryTree<E> {
     
     public FactoryTree(){}
     
-    public InterArboles getTree(String opcionUsuario) {
-    // seleccion de la implementacion a utilizar:
+    public InterArboles implementar(String opcionUsuario) {
         
-        if(opcionUsuario.equals("Red-Black Tree"))
-        {
+        if(opcionUsuario.equals("Red Black Tree")){
             newTree =  new RedBlackTree<>();
-        }else if(opcionUsuario.equals("Splay Tree"))
-        {
+        }
+        else if(opcionUsuario.equals("Splay Tree")){
             newTree = new SplayTree<>();
         }
-        
         return newTree;      
    }
     
